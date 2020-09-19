@@ -1,40 +1,75 @@
 package com.movies.data.datamanager;
 
-import android.content.Context;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
-import com.google.gson.Gson;
-import com.movies.data.datamanager.database.DbHelper;
+import com.movies.data.datamanager.local.database.DbHelper;
+import com.movies.data.datamanager.local.preference.PreferencesHelper;
 import com.movies.data.datamanager.remote.ApiHelper;
-import com.movies.data.model.Movie;
-import com.movies.data.model.MoviesResponse;
+import com.movies.data.model.movielist.Movie;
+import com.movies.data.model.movielist.MoviesResponse;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+@SuppressWarnings("ALL")
 @Singleton
 public class AppDataManager implements DataManager {
 
     private final ApiHelper mApiHelper;
     private final DbHelper mDbHelper;
+    private final PreferencesHelper mPreferencesHelper;
 
     @Inject
-    AppDataManager(DbHelper dbHelper, ApiHelper apiHelper) {
+    AppDataManager(DbHelper dbHelper, ApiHelper apiHelper, PreferencesHelper preferencesHelper) {
         mDbHelper = dbHelper;
         mApiHelper = apiHelper;
+        mPreferencesHelper = preferencesHelper;
     }
 
     @Override
-    public Observable<Boolean> insert(List<Movie> movies) {
+    public Long getCurrentPage() {
+        return mPreferencesHelper.getCurrentPage();
+    }
+
+    @Override
+    public void setCurrentPage(Long currentPage) {
+        mPreferencesHelper.setCurrentPage(currentPage);
+    }
+
+    @Override
+    public Long getTotalPage() {
+        return mPreferencesHelper.getTotalPage();
+    }
+
+    @Override
+    public void setTotalPage(Long totalPage) {
+        mPreferencesHelper.setTotalPage(totalPage);
+    }
+
+    @Override
+    public Observable<Long> insert(Movie movie) {
+        return mDbHelper.insert(movie);
+    }
+
+    @Override
+    public Completable insert(List<Movie> movies) {
         return mDbHelper.insert(movies);
     }
 
     @Override
-    public Single<MoviesResponse> getMovies() {
-        return mApiHelper.getMovies();
+    public LiveData<PagedList<Movie>> getMovies() {
+        return mDbHelper.getMovies();
+    }
+
+    @Override
+    public Single<MoviesResponse> getMovies(int page) {
+        return mApiHelper.getMovies(page);
     }
 }

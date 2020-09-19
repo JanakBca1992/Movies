@@ -1,6 +1,10 @@
 package com.movies.basemodule;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public interface BaseNavigator {
+    AppCompatActivity getBaseActivity();
+
     void showLoadingDialog();
 
     void hideLoadingDialog();

@@ -1,8 +1,5 @@
 package com.movies.ui.splash;
 
-import android.content.Context;
-import android.content.Intent;
-
 import com.movies.BR;
 import com.movies.R;
 import com.movies.basemodule.BaseActivity;

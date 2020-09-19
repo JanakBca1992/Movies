@@ -1,6 +1,7 @@
 package com.movies.data.datamanager.remote;
 
-import com.movies.data.model.MoviesResponse;
+import com.movies.BuildConfig;
+import com.movies.data.model.movielist.MoviesResponse;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import javax.inject.Inject;
@@ -16,8 +17,11 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
-    public Single<MoviesResponse> getMovies() {
-        return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_BLOG)
+    public Single<MoviesResponse> getMovies(int page) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_MOVIE_LIST)
+                .addQueryParameter(ApiEndPoint.PARAM_API_KEY, BuildConfig.API_KEY)
+                .addQueryParameter(ApiEndPoint.PARAM_LANGUAGE, "en-US")
+                .addQueryParameter(ApiEndPoint.PARAM_PAGE, String.valueOf(page))
                 .build()
                 .getObjectSingle(MoviesResponse.class);
     }

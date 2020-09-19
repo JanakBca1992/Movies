@@ -8,9 +8,13 @@ import com.movies.R;
 import com.movies.basemodule.BaseActivity;
 import com.movies.databinding.ActivityMovieListBinding;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, MovieListViewModel> implements MovieListViewModel.MovieListNavigator {
+
+    private ActivityMovieListBinding activityMovieListBinding;
 
     @Inject
     MovieListViewModel mViewModel;
@@ -31,7 +35,10 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
 
     @Override
     public void onInitialize() {
+        activityMovieListBinding = getViewBinding();
         mViewModel.setNavigator(this);
+        mViewModel.initDataSourceFactory();
+        setupToolbar();
     }
 
     @Override
@@ -52,5 +59,12 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
     @Override
     public MovieListViewModel getViewModel() {
         return mViewModel;
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(getViewBinding().toolBar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setTitle(R.string.app_name);
     }
 }

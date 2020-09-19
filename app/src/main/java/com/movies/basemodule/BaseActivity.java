@@ -94,7 +94,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         onHide();
     }
 
-    public T getViewDataBinding() {
+    public T getViewBinding() {
         return mViewDataBinding;
     }
 
@@ -104,6 +104,12 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         builder.setView(LayoutInflater.from(this).inflate(getLayoutIdLoading() == -1 ? R.layout.view_dialog_loadin_default : getLayoutIdLoading(), null));
         mProgressDialog = builder.create();
         Objects.requireNonNull(mProgressDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+
+    @Override
+    public AppCompatActivity getBaseActivity() {
+        return this;
     }
 
     @Override

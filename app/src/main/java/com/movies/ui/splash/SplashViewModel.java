@@ -8,7 +8,6 @@ import com.movies.utils.rx.SchedulerProvider;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Action;
 
 public class SplashViewModel extends BaseViewModel<SplashViewModel.SplashNavigator> {
 
@@ -17,12 +16,8 @@ public class SplashViewModel extends BaseViewModel<SplashViewModel.SplashNavigat
     }
 
     void startSplashTimer() {
-        getCompositeDisposable().add(Completable.timer(3, TimeUnit.SECONDS, getSchedulerProvider().ui()).subscribe(new Action() {
-            @Override
-            public void run() {
-                getNavigator().openMainActivity();
-            }
-        }));
+        getCompositeDisposable().add(Completable.timer(3, TimeUnit.SECONDS, getSchedulerProvider().getMainThreadScheduler()).subscribe(() ->
+                getNavigator().openMainActivity()));
     }
 
     public interface SplashNavigator {

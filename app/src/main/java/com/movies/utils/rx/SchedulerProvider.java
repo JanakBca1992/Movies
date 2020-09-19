@@ -22,7 +22,7 @@ public interface SchedulerProvider {
 
     Scheduler computation();
 
-    Scheduler io();
+    Scheduler getIOThreadScheduler();
 
-    Scheduler ui();
+    Scheduler getMainThreadScheduler();
 }
