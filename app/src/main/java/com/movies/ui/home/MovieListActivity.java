@@ -1,4 +1,4 @@
-package com.movies.ui.splash;
+package com.movies.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,15 +6,18 @@ import android.content.Intent;
 import com.movies.BR;
 import com.movies.R;
 import com.movies.basemodule.BaseActivity;
-import com.movies.databinding.ActivitySplashBinding;
-import com.movies.ui.home.MovieListActivity;
+import com.movies.databinding.ActivityMovieListBinding;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashViewModel> implements SplashViewModel.SplashNavigator {
+public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, MovieListViewModel> implements MovieListViewModel.MovieListNavigator {
 
     @Inject
-    SplashViewModel mViewModel;
+    MovieListViewModel mViewModel;
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, MovieListActivity.class);
+    }
 
     @Override
     public int getBindingVariable() {
@@ -23,13 +26,12 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
 
     @Override
     public int getResourceLayout() {
-        return R.layout.activity_splash;
+        return R.layout.activity_movie_list;
     }
 
     @Override
     public void onInitialize() {
         mViewModel.setNavigator(this);
-        mViewModel.startSplashTimer();
     }
 
     @Override
@@ -48,13 +50,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
     }
 
     @Override
-    public SplashViewModel getViewModel() {
+    public MovieListViewModel getViewModel() {
         return mViewModel;
-    }
-
-    @Override
-    public void openMainActivity() {
-        startActivity(MovieListActivity.getIntent(this));
-        finish();
     }
 }
