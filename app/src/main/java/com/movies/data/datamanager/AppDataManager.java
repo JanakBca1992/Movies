@@ -69,7 +69,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Single<MoviesResponse> getMovies(int page) {
+    public Single<MoviesResponse> getMovies(String page) {
         return mApiHelper.getMovies(page);
     }
 }

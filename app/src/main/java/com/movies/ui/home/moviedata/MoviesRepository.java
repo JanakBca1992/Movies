@@ -16,19 +16,19 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 @SuppressWarnings("ALL")
-public class MovieRepository {
+public class MoviesRepository {
     private static final String TAG = "MovieRepository";
 
     private DataManager dataManager;
 
-    final private MoviesNetwork network;
+    final private MoviesDataSourceFactory.MoviesNetwork network;
     final private MediatorLiveData liveDataMerger;
 
-    public MovieRepository(DataManager dataManager) {
+    public MoviesRepository(DataManager dataManager) {
         this.dataManager = dataManager;
 
         MoviesDataSourceFactory dataSourceFactory = new MoviesDataSourceFactory(dataManager);
-        network = new MoviesNetwork(dataSourceFactory, boundaryCallback);
+        network = new MoviesDataSourceFactory.MoviesNetwork(dataSourceFactory, boundaryCallback);
         liveDataMerger = new MediatorLiveData<>();
         liveDataMerger.addSource(network.getPagedMovies(), value -> {
             liveDataMerger.setValue(value);

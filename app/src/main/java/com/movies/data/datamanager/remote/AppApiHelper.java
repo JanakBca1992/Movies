@@ -17,11 +17,11 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
-    public Single<MoviesResponse> getMovies(int page) {
+    public Single<MoviesResponse> getMovies(String page) {
         return Rx2AndroidNetworking.get(ApiEndPoint.ENDPOINT_MOVIE_LIST)
                 .addQueryParameter(ApiEndPoint.PARAM_API_KEY, BuildConfig.API_KEY)
                 .addQueryParameter(ApiEndPoint.PARAM_LANGUAGE, "en-US")
-                .addQueryParameter(ApiEndPoint.PARAM_PAGE, String.valueOf(page))
+                .addQueryParameter(ApiEndPoint.PARAM_PAGE, page)
                 .build()
                 .getObjectSingle(MoviesResponse.class);
     }

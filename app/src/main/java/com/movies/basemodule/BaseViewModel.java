@@ -39,11 +39,11 @@ public class BaseViewModel<N> extends ViewModel {
         return mDataManager;
     }
 
-    public ObservableBoolean getIsLoading() {
+    public ObservableBoolean isLoading() {
         return mIsLoading;
     }
 
-    protected void setIsLoading(boolean isLoading) {
+    protected void setLoading(boolean isLoading) {
         mIsLoading.set(isLoading);
     }
 

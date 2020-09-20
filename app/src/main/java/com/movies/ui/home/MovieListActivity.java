@@ -14,8 +14,6 @@ import javax.inject.Inject;
 
 public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, MovieListViewModel> implements MovieListViewModel.MovieListNavigator {
 
-    private ActivityMovieListBinding activityMovieListBinding;
-
     @Inject
     MovieListViewModel mViewModel;
 
@@ -35,7 +33,6 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
 
     @Override
     public void onInitialize() {
-        activityMovieListBinding = getViewBinding();
         mViewModel.setNavigator(this);
         mViewModel.initDataSourceFactory();
         setupToolbar();

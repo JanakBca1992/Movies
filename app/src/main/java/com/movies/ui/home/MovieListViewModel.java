@@ -1,15 +1,12 @@
 package com.movies.ui.home;
 
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.Observer;
-import androidx.paging.PagedList;
 
 import com.movies.basemodule.BaseNavigator;
 import com.movies.basemodule.BaseViewModel;
 import com.movies.data.datamanager.DataManager;
-import com.movies.data.model.movielist.Movie;
 import com.movies.data.model.state.NetworkState;
-import com.movies.ui.home.moviedata.MovieRepository;
+import com.movies.ui.home.moviedata.MoviesRepository;
 import com.movies.utils.rx.SchedulerProvider;
 
 import java.util.Objects;
@@ -24,15 +21,19 @@ public class MovieListViewModel extends BaseViewModel<MovieListViewModel.MovieLi
     }
 
     void initDataSourceFactory() {
-        MovieRepository movieRepository = new MovieRepository(getDataManager());
-        movieRepository.getMovies().observe(getNavigator().getBaseActivity(), movies -> {
+        setLoading(true);
+        MoviesRepository moviesRepository = new MoviesRepository(getDataManager());
+        moviesRepository.getMovies().observe(getNavigator().getBaseActivity(), movies -> {
             if (moviesListAdapter.get() != null) {
                 Objects.requireNonNull(moviesListAdapter.get()).submitList(movies);
             }
         });
-        movieRepository.getNetworkState().observe(getNavigator().getBaseActivity(), networkState -> {
+        moviesRepository.getNetworkState().observe(getNavigator().getBaseActivity(), networkState -> {
             if (moviesListAdapter.get() != null) {
                 Objects.requireNonNull(moviesListAdapter.get()).setNetworkState(networkState);
+                if (networkState.getStatus() != NetworkState.Status.RUNNING) {
+                    setLoading(false);
+                }
             }
         });
     }
