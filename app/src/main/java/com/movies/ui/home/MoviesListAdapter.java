@@ -1,5 +1,6 @@
 package com.movies.ui.home;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ALL")
 public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.ViewHolder> {
+    private static final String TAG = "MoviesListAdapter";
 
     private NetworkState networkState;
 
@@ -40,6 +42,7 @@ public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.d(TAG, "onCreateViewHolder: " + getItemCount());
         if (getItemViewType(position) == R.layout.view_movie_item) {
             ((ItemViewHolder) holder).onBind(getItem(position));
         } else if (getItemViewType(position) == R.layout.view_network_state_item) {

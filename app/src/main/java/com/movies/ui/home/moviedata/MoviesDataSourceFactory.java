@@ -56,6 +56,10 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
         return moviesPageKeyedDataSource.getMovies();
     }
 
+    public void onReferesh() {
+        moviesPageKeyedDataSource.invalidate();
+    }
+
     public static class MoviesDataSource extends PageKeyedDataSource<Long, Movie> {
         private static final String TAG = "MoviesDataSource";
 
@@ -141,8 +145,10 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
     public static class MoviesNetwork {
         final private LiveData<PagedList<Movie>> moviesPaged;
         final private LiveData<NetworkState> networkState;
+        private MoviesDataSourceFactory dataSourceFactory;
 
         public MoviesNetwork(MoviesDataSourceFactory dataSourceFactory, PagedList.BoundaryCallback<Movie> boundaryCallback) {
+            this.dataSourceFactory = dataSourceFactory;
             PagedList.Config pagedListConfig = (new PagedList.Config.Builder()).setEnablePlaceholders(false).setInitialLoadSizeHint(LOADING_PAGE_SIZE).setPageSize(LOADING_PAGE_SIZE).build();
 
             networkState = Transformations.switchMap(dataSourceFactory.getNetworkStatus(), (Function<MoviesDataSource, LiveData<NetworkState>>) MoviesDataSource::getNetworkState);
@@ -158,6 +164,10 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
 
         public LiveData<NetworkState> getNetworkState() {
             return networkState;
+        }
+
+        public void onReferesh() {
+            dataSourceFactory.onReferesh();
         }
     }
 }

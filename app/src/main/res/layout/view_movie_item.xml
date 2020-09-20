@@ -6,6 +6,10 @@
 
     <data>
 
+        <import type="com.movies.utils.AppConstants" />
+
+        <import type="com.movies.utils.AppUtils" />
+
         <variable
             name="model"
             type="com.movies.data.model.movielist.Movie" />
@@ -14,24 +18,118 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_poster_movie"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="@dimen/dimen_0dp"
-                android:background="@android:color/holo_red_dark"
-                app:layout_constraintDimensionRatio="w,1:1"
+                android:background="@color/color_screen_background"
+                app:layout_constraintBottom_toBottomOf="@+id/view_bottom"
+                app:layout_constraintDimensionRatio="h,1.5:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:loadImage="@{model.getPosterPath()}" />
+                app:loadImage="@{String.format(AppConstants.LOAD_SMALL_IMAGE, model.getPosterPath())}" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_movie_title"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_10dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:text="@{model.getTitle()}"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/dimen_16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_poster_movie"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Gabriel's Inferno" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_movie_release_date"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:text="@{model.getReleaseDate()}"
+                android:textColor="@color/color_text_light"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintEnd_toStartOf="@+id/img_movie_voting"
+                app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_movie_title"
+                tools:text="2020-05-29" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_movie_language"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:text="@{AppUtils.getLanguage(model.getOriginalLanguage())}"
+                android:textColor="@color/color_text_light"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintEnd_toEndOf="@+id/txt_movie_release_date"
+                app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_movie_release_date"
+                tools:text="English" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_movie_voting"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="@dimen/dimen_0dp"
+                android:layout_margin="@dimen/dimen_8dp"
+                android:background="@drawable/bg_circle"
+                android:padding="@dimen/dimen_5dp"
+                android:src="@drawable/ic_like"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_movie_voting"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/txt_movie_voting"
+                app:layout_constraintTop_toTopOf="@+id/txt_movie_voting" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_movie_voting"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_0dp"
+                android:gravity="center"
+                android:text="@{Integer.toString((int)(model.getVoteAverage() * 10)).concat(`%`)}"
+                android:textColor="@color/color_text_light"
+                android:textSize="@dimen/dimen_20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_movie_language"
+                app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                app:layout_constraintTop_toTopOf="@+id/txt_movie_release_date"
+                tools:text="91%" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_movie_overview"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@{model.getOverview()}"
+                android:textColor="@color/color_text_dark"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_movie_language"
+                tools:text="Movie Description" />
+
+            <View
+                android:id="@+id/view_bottom"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="@dimen/dimen_0dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                app:layout_constraintEnd_toEndOf="@+id/txt_movie_overview"
+                app:layout_constraintStart_toStartOf="@+id/txt_movie_overview"
+                app:layout_constraintTop_toBottomOf="@+id/txt_movie_overview" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

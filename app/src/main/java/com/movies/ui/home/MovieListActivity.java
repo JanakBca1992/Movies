@@ -64,4 +64,9 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(R.string.app_name);
     }
+
+    @Override
+    public void onRefresh(boolean isRefreshing) {
+        getViewBinding().swipeRefreshLayout.setRefreshing(isRefreshing);
+    }
 }
