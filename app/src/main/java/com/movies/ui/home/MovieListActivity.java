@@ -69,11 +69,6 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
     }
 
     @Override
-    public void onRefresh(boolean isRefreshing) {
-        getViewBinding().swipeRefreshLayout.setRefreshing(isRefreshing);
-    }
-
-    @Override
     public void openMovieDetailScreen(long id) {
         Bundle bundle = new Bundle();
         bundle.putLong(AppConstants.BundleExtras.BUNDLE_EXTRAS_PARAM_MOVIE_ID, id);

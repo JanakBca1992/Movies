@@ -59,6 +59,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Integer> update(Movie movie) {
+        return mDbHelper.update(movie);
+    }
+
+    @Override
     public Completable insert(List<Movie> movies) {
         return mDbHelper.insert(movies);
     }

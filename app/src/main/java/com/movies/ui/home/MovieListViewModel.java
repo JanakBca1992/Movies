@@ -4,7 +4,6 @@ import android.view.View;
 
 import androidx.databinding.ObservableField;
 
-import com.movies.R;
 import com.movies.basemodule.BaseNavigator;
 import com.movies.basemodule.BaseViewModel;
 import com.movies.data.datamanager.DataManager;
@@ -35,33 +34,17 @@ public class MovieListViewModel extends BaseViewModel<MovieListViewModel.MovieLi
             Objects.requireNonNull(moviesListAdapter.get()).setNetworkState(networkState);
             if (networkState.getStatus() != NetworkState.Status.RUNNING) {
                 setLoading(false);
-                getNavigator().onRefresh(false);
             }
         });
     }
 
-    public void onRefresh() {
-        if (moviesRepository != null) {
-            Objects.requireNonNull(moviesListAdapter.get()).submitList(null);
-            moviesRepository.onReferesh();
-        }
-    }
-
     @Override
     public void onItemClicked(View view, int position) {
-        if (view.getId() == R.id.error_msg) {
-            if (moviesRepository != null) {
-                moviesRepository.onRetry();
-            }
-        } else {
-            Movie movie = Objects.requireNonNull(moviesListAdapter.get()).getItemAt(position);
-            getNavigator().openMovieDetailScreen(movie.getId());
-        }
+        Movie movie = Objects.requireNonNull(moviesListAdapter.get()).getItemAt(position);
+        getNavigator().openMovieDetailScreen(movie.getId());
     }
 
     public interface MovieListNavigator extends BaseNavigator {
-        void onRefresh(boolean isRefreshing);
-
         void openMovieDetailScreen(long id);
     }
 }

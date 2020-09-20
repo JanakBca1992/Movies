@@ -14,6 +14,8 @@ import io.reactivex.Observable;
 public interface DbHelper {
     Observable<Long> insert(Movie movie);
 
+    Observable<Integer> update(Movie movie);
+
     Completable insert(List<Movie> movies);
 
     Observable<Movie> getMovie(long id);

@@ -64,12 +64,4 @@ public class MoviesRepository {
     public LiveData<NetworkState> getNetworkState() {
         return network.getNetworkState();
     }
-
-    public void onReferesh() {
-        network.onReferesh();
-    }
-
-    public void onRetry() {
-        network.onRetry();
-    }
 }

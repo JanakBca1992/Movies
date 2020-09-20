@@ -59,15 +59,6 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
         return moviesPageKeyedDataSource.getMovies();
     }
 
-    public void onReferesh() {
-        moviesPageKeyedDataSource.invalidate();
-    }
-
-    public void onRetry() {
-        moviesPageKeyedDataSource.invalidate();
-    }
-
-
     public static class MoviesDataSource extends PageKeyedDataSource<Long, Movie> {
         private static final String TAG = "MoviesDataSource";
 
@@ -137,7 +128,8 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
                         @Override
                         public void accept(MoviesResponse moviesResponse) throws Exception {
                             if (moviesResponse.getResults() != null && !moviesResponse.getResults().isEmpty()) {
-                                loadCallback.onResult(moviesResponse.getResults(), loadParams.key + 1);
+                                long key = loadParams.key < moviesResponse.getTotalPages() ? loadParams.key + 1 : null;
+                                loadCallback.onResult(moviesResponse.getResults(), key);
                                 networkState.postValue(NetworkState.LOADED);
                                 moviesResponse.getResults().forEach(moviesObservable::onNext);
                             }
@@ -189,14 +181,6 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
 
         public LiveData<NetworkState> getNetworkState() {
             return networkState;
-        }
-
-        public void onReferesh() {
-            dataSourceFactory.onReferesh();
-        }
-
-        public void onRetry() {
-
         }
     }
 }

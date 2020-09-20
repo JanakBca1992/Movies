@@ -27,11 +27,11 @@ public class MovieDetailViewModel extends BaseViewModel<MovieDetailViewModel.Mov
         } else {
             setLoading(true);
             getCompositeDisposable().add(getDataManager().getMovieDetail(String.valueOf(movieId))
-                    .flatMap((Function<Movie, SingleSource<Long>>) movie -> Single.fromObservable(getDataManager().insert(movie)))
+                    .flatMap((Function<Movie, SingleSource<Integer>>) movie -> Single.fromObservable(getDataManager().update(movie)))
                     .subscribeOn(getSchedulerProvider().getIOThreadScheduler())
                     .observeOn(getSchedulerProvider().getMainThreadScheduler()).subscribe(id -> {
                         setLoading(false);
-                        getMovieFromDB(id);
+                        getMovieFromDB(movieId);
                     }, throwable -> setLoading(false)));
         }
     }

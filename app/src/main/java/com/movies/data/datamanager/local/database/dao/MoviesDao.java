@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.movies.data.model.movielist.Movie;
 
@@ -11,8 +12,11 @@ import java.util.List;
 
 @Dao
 public interface MoviesDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(Movie movie);
+
+    @Update
+    int update(Movie movie);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Movie> movies);
