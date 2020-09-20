@@ -2,11 +2,14 @@ package com.movies.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.movies.BR;
 import com.movies.R;
 import com.movies.basemodule.BaseActivity;
 import com.movies.databinding.ActivityMovieListBinding;
+import com.movies.ui.detail.MovieDetailActivity;
+import com.movies.utils.AppConstants;
 
 import java.util.Objects;
 
@@ -62,11 +65,18 @@ public class MovieListActivity extends BaseActivity<ActivityMovieListBinding, Mo
         setSupportActionBar(getViewBinding().toolBar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle(R.string.app_name);
+        getSupportActionBar().setTitle(R.string.title_list);
     }
 
     @Override
     public void onRefresh(boolean isRefreshing) {
         getViewBinding().swipeRefreshLayout.setRefreshing(isRefreshing);
+    }
+
+    @Override
+    public void openMovieDetailScreen(long id) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(AppConstants.BundleExtras.BUNDLE_EXTRAS_PARAM_MOVIE_ID, id);
+        startActivity(MovieDetailActivity.getIntent(this, bundle));
     }
 }

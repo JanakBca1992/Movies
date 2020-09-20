@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Movies</string>
-
+    <string name="title_list">Top Rated Movies</string>
     <string name="vote_count">%1$s</string>
 </resources>

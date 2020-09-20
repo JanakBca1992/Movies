@@ -2,6 +2,7 @@ package com.movies.ui.home;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.movies.data.model.movielist.Movie;
 import com.movies.data.model.state.NetworkState;
 import com.movies.databinding.ViewMovieItemBinding;
 import com.movies.databinding.ViewNetworkStateItemBinding;
+import com.movies.listeners.ItemClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,8 +26,11 @@ public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.View
 
     private NetworkState networkState;
 
-    public MoviesListAdapter() {
+    private ItemClickListener itemClickListener;
+
+    public MoviesListAdapter(ItemClickListener itemClickListener) {
         super(DIFF_CALLBACK);
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -42,9 +47,14 @@ public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.d(TAG, "onCreateViewHolder: " + getItemCount());
         if (getItemViewType(position) == R.layout.view_movie_item) {
             ((ItemViewHolder) holder).onBind(getItem(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemClickListener.onItemClicked(view, position);
+                }
+            });
         } else if (getItemViewType(position) == R.layout.view_network_state_item) {
             ((StateViewHolder) holder).onBind(networkState);
         }
@@ -93,6 +103,10 @@ public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.View
         } else if (newExtraRow && previousState != newNetworkState) {
             notifyItemChanged(getItemCount() - 1);
         }
+    }
+
+    public Movie getItemAt(int position) {
+        return getItem(position);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

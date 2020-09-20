@@ -19,7 +19,7 @@
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/color_screen_background">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -40,18 +40,21 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="@dimen/dimen_0dp"
             android:layout_height="@dimen/dimen_0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:onRefreshListener="@{()-> viewModel.onRefresh()}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adapter="@{viewModel.moviesListAdapter}"
+                app:itemDecoration="@{20}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -13,4 +13,8 @@ public final class AppConstants {
 
     public static final String LOAD_SMALL_IMAGE = SMALL_IMAGE_URL_PREFIX + "%s";
     public static final String LOAD_LARGE_IMAGE = BIG_IMAGE_URL_PREFIX + "%s";
+
+    public interface BundleExtras {
+        String BUNDLE_EXTRAS_PARAM_MOVIE_ID = "bundle_extras_param_movie_id";
+    }
 }

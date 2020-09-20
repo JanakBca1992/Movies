@@ -1,5 +1,7 @@
 package com.movies.di.builder;
 
+import com.movies.ui.detail.MovieDetailActivity;
+import com.movies.ui.detail.MovieDetailModule;
 import com.movies.ui.home.MovieListActivity;
 import com.movies.ui.home.MovieListModule;
 import com.movies.ui.splash.SplashActivity;
@@ -15,4 +17,7 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = MovieListModule.class)
     abstract MovieListActivity bindMovieListActivity();
+
+    @ContributesAndroidInjector(modules = MovieDetailModule.class)
+    abstract MovieDetailActivity bindMovieDetailActivity();
 }
