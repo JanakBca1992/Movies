@@ -233,6 +233,7 @@
                     android:textColor="@color/color_text_dark"
                     android:textSize="@dimen/dimen_18sp"
                     android:textStyle="bold"
+                    android:visibility="@{viewModel.movieItem.getGenres() != null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
                     app:layout_constraintStart_toStartOf="@+id/txt_movie_description"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_description" />
@@ -284,7 +285,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <androidx.core.widget.ContentLoadingProgressBar
-            style="?android:attr/progressBarStyleLarge"
+            style="?android:attr/progressBarStyleInverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -293,7 +294,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
