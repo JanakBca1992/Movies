@@ -19,6 +19,7 @@ import androidx.databinding.ViewDataBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.movies.R;
 import com.movies.utils.KeyboardUtils;
+import com.movies.utils.NetworkUtils;
 
 import java.util.Objects;
 
@@ -129,6 +130,11 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     @Override
     public void hideKeyboard() {
         KeyboardUtils.hideKeyboard(this);
+    }
+
+    @Override
+    public boolean isNetworkAvailable() {
+        return NetworkUtils.isNetworkAvailable(this);
     }
 
     @Override

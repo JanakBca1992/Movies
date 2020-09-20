@@ -11,6 +11,8 @@ public interface BaseNavigator {
 
     void hideKeyboard();
 
+    boolean isNetworkAvailable();
+
     void showSnackBar(CharSequence message, boolean isError);
 
     void showToast(String message);

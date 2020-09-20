@@ -8,6 +8,8 @@
 
         <import type="com.movies.utils.AppConstants" />
 
+        <import type="com.movies.utils.DateTimeUtils" />
+
         <import type="com.movies.utils.AppUtils" />
 
         <variable
@@ -19,7 +21,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="@dimen/dimen_5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,7 +61,7 @@
                 android:layout_marginTop="@dimen/dimen_8dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:text="@{model.getReleaseDate()}"
+                android:text="@{DateTimeUtils.getReleaseData(model.getReleaseDate())}"
                 android:textColor="@color/color_text_light"
                 android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintEnd_toStartOf="@+id/img_movie_voting"
@@ -86,7 +88,10 @@
                 android:layout_height="@dimen/dimen_0dp"
                 android:layout_margin="@dimen/dimen_8dp"
                 android:background="@drawable/bg_circle"
-                android:padding="@dimen/dimen_5dp"
+                android:paddingStart="@dimen/dimen_5dp"
+                android:paddingTop="@dimen/dimen_5dp"
+                android:paddingEnd="@dimen/dimen_5dp"
+                android:paddingBottom="@dimen/dimen_2dp"
                 android:src="@drawable/ic_like"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_movie_voting"
                 app:layout_constraintDimensionRatio="h,1:1"
@@ -118,6 +123,7 @@
                 android:textColor="@color/color_text_dark"
                 android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
                 app:layout_constraintTop_toBottomOf="@+id/txt_movie_language"
                 tools:text="Movie Description" />

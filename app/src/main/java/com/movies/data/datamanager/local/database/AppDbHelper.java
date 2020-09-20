@@ -43,6 +43,16 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Movie> getMovie(long id) {
+        return Observable.fromCallable(new Callable<Movie>() {
+            @Override
+            public Movie call() throws Exception {
+                return mAppDatabase.moviesDao().getMovie(id);
+            }
+        });
+    }
+
+    @Override
     public Completable insert(List<Movie> movies) {
         return Completable.fromAction(new Action() {
             @Override

@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 @Entity(tableName = "Movie")
 public class Movie extends BaseObservable {
@@ -53,6 +52,42 @@ public class Movie extends BaseObservable {
 
     @SerializedName("release_date")
     private String releaseDate;
+
+    @SerializedName("imdb_id")
+    private String imdbId;
+
+    @SerializedName("revenue")
+    private int revenue;
+
+    @SerializedName("genres")
+    private ArrayList<CommonDetail> genres;
+
+    @SerializedName("production_countries")
+    private ArrayList<CommonDetail> productionCountries;
+
+    @SerializedName("budget")
+    private int budget;
+
+    @SerializedName("runtime")
+    private int runtime;
+
+    @SerializedName("spoken_languages")
+    private ArrayList<CommonDetail> spokenLanguages;
+
+    @SerializedName("production_companies")
+    private ArrayList<CommonDetail> productionCompanies;
+
+    @SerializedName("belongs_to_collection")
+    private CommonDetail belongsToCollection;
+
+    @SerializedName("tagline")
+    private String tagLine;
+
+    @SerializedName("homepage")
+    private String homepage;
+
+    @SerializedName("status")
+    private String status;
 
     public Movie() {
     }
@@ -167,6 +202,102 @@ public class Movie extends BaseObservable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public int getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(int revenue) {
+        this.revenue = revenue;
+    }
+
+    public ArrayList<CommonDetail> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<CommonDetail> genres) {
+        this.genres = genres;
+    }
+
+    public ArrayList<CommonDetail> getProductionCountries() {
+        return productionCountries;
+    }
+
+    public void setProductionCountries(ArrayList<CommonDetail> productionCountries) {
+        this.productionCountries = productionCountries;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public ArrayList<CommonDetail> getSpokenLanguages() {
+        return spokenLanguages;
+    }
+
+    public void setSpokenLanguages(ArrayList<CommonDetail> spokenLanguages) {
+        this.spokenLanguages = spokenLanguages;
+    }
+
+    public ArrayList<CommonDetail> getProductionCompanies() {
+        return productionCompanies;
+    }
+
+    public void setProductionCompanies(ArrayList<CommonDetail> productionCompanies) {
+        this.productionCompanies = productionCompanies;
+    }
+
+    public CommonDetail getBelongsToCollection() {
+        return belongsToCollection;
+    }
+
+    public void setBelongsToCollection(CommonDetail belongsToCollection) {
+        this.belongsToCollection = belongsToCollection;
+    }
+
+    public String getTagLine() {
+        return tagLine;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

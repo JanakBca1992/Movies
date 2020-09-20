@@ -64,6 +64,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Observable<Movie> getMovie(long id) {
+        return mDbHelper.getMovie(id);
+    }
+
+    @Override
     public LiveData<PagedList<Movie>> getMovies() {
         return mDbHelper.getMovies();
     }
@@ -71,5 +76,10 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<MoviesResponse> getMovies(String page) {
         return mApiHelper.getMovies(page);
+    }
+
+    @Override
+    public Single<Movie> getMovieDetail(String movieId) {
+        return mApiHelper.getMovieDetail(movieId);
     }
 }

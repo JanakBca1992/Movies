@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.screens.splash.SplashActivity">
 
     <data>
+
+        <import type="com.movies.utils.AppConstants" />
+
+        <import type="com.movies.utils.DateTimeUtils" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -11,10 +18,214 @@
 
     </data>
 
-    <RelativeLayout
-        android:id="@+id/activity_main"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_screen_background" />
+        android:background="@color/color_screen_background">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?colorPrimary"
+                app:expandedTitleMarginBottom="@dimen/dimen_16dp"
+                app:expandedTitleMarginStart="@dimen/dimen_16dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/dimen_0dp"
+                        android:layout_height="@dimen/dimen_0dp"
+                        android:background="@android:color/holo_red_dark"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintDimensionRatio="w,1:1.5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:loadImage="@{String.format(AppConstants.LOAD_LARGE_IMAGE, viewModel.movieItem.getBackgroundPath())}" />
+
+                    <View
+                        android:layout_width="@dimen/dimen_0dp"
+                        android:layout_height="@dimen/dimen_0dp"
+                        android:background="@drawable/bg_shadow"
+                        app:layout_constraintDimensionRatio="w,1:1.5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/anim_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@{viewModel.movieItem.getTitle()}" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_movie_poster"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="@dimen/dimen_0dp"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginLeft="@dimen/dimen_16dp"
+                    app:cardCornerRadius="@dimen/dimen_5dp"
+                    app:cardElevation="@dimen/dimen_5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_movie_status"
+                    app:layout_constraintDimensionRatio="h,1.5:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txt_movie_title">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/img_movie_poster"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintDimensionRatio="w,1.8:1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:loadImage="@{String.format(AppConstants.LOAD_SMALL_IMAGE, viewModel.movieItem.getPosterPath())}" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_title"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="@{viewModel.movieItem.getTitle()}"
+                    android:textColor="@color/color_text_dark"
+                    android:textSize="@dimen/dimen_20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cv_movie_poster"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Gabriel's Inferno" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_release_date"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="@{DateTimeUtils.getReleaseData(viewModel.movieItem.getReleaseDate())}"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_title"
+                    tools:text="2020-05-29" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/rtb_movie_rating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="@{(float)(viewModel.movieItem.getVoteAverage() / 2)}"
+                    android:stepSize="0.1"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_release_date"
+                    tools:rating="3.5" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_movie_voting"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:background="@drawable/bg_circle"
+                    android:paddingStart="@dimen/dimen_5dp"
+                    android:paddingTop="@dimen/dimen_5dp"
+                    android:paddingEnd="@dimen/dimen_5dp"
+                    android:paddingBottom="@dimen/dimen_2dp"
+                    android:src="@drawable/ic_like"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_movie_status"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintTop_toTopOf="@+id/rtb_movie_rating" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_voting"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="@dimen/dimen_0dp"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:text="@{Integer.toString((int)(viewModel.movieItem.getVoteAverage() * 10)).concat(`%`)}"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="@dimen/dimen_14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_movie_voting"
+                    app:layout_constraintEnd_toEndOf="@+id/img_movie_voting"
+                    app:layout_constraintStart_toStartOf="@+id/img_movie_voting"
+                    app:layout_constraintTop_toTopOf="@+id/img_movie_voting"
+                    tools:text="100%" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_status"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:text="@{DateTimeUtils.getReleaseData(viewModel.movieItem.getReleaseDate())}"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="@dimen/dimen_16sp"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
+                    app:layout_constraintTop_toBottomOf="@+id/rtb_movie_rating"
+                    tools:text="Status: Released" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_description"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:includeFontPadding="false"
+                    android:text="@{viewModel.movieItem.getOverview()}"
+                    android:textColor="@color/color_text_dark"
+                    android:textSize="@dimen/dimen_18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/cv_movie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_movie_poster"
+                    tools:text="2020-05-29" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

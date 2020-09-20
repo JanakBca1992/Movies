@@ -8,6 +8,7 @@ import com.movies.BR;
 import com.movies.R;
 import com.movies.basemodule.BaseActivity;
 import com.movies.databinding.ActivityMovieDetailBinding;
+import com.movies.utils.AppConstants;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,11 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     public void onInitialize() {
         mViewModel.setNavigator(this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            long movieId = bundle.getLong(AppConstants.BundleExtras.BUNDLE_EXTRAS_PARAM_MOVIE_ID, 0);
+            mViewModel.getMovieDetail(movieId);
+        }
     }
 
     @Override

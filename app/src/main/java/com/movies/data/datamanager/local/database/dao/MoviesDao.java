@@ -17,7 +17,10 @@ public interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Movie> movies);
 
-    @Query("SELECT * FROM Movie")
+    @Query("SELECT * FROM Movie WHERE id=:id")
+    Movie getMovie(long id);
+
+    @Query("SELECT * FROM Movie ORDER BY voteAverage DESC")
     List<Movie> getMovies();
 
     @Query("DELETE FROM Movie")

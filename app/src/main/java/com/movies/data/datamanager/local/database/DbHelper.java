@@ -16,5 +16,7 @@ public interface DbHelper {
 
     Completable insert(List<Movie> movies);
 
+    Observable<Movie> getMovie(long id);
+
     LiveData<PagedList<Movie>> getMovies();
 }
