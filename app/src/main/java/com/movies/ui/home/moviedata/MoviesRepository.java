@@ -68,4 +68,8 @@ public class MoviesRepository {
     public void onReferesh() {
         network.onReferesh();
     }
+
+    public void onRetry() {
+        network.onRetry();
+    }
 }

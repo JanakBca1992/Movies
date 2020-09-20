@@ -10,6 +10,8 @@
 
         <import type="com.movies.utils.DateTimeUtils" />
 
+        <import type="com.movies.utils.AppUtils" />
+
         <import type="android.view.View" />
 
         <variable
@@ -36,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?colorPrimary"
+
                 app:expandedTitleMarginBottom="@dimen/dimen_16dp"
                 app:expandedTitleMarginStart="@dimen/dimen_16dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -69,12 +72,19 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/anim_toolbar"
+                    android:id="@+id/toolBar"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
+                    app:contentInsetEnd="@dimen/dimen_0dp"
+                    app:contentInsetEndWithActions="@dimen/dimen_0dp"
+                    app:contentInsetStart="@dimen/dimen_0dp"
+                    app:contentInsetStartWithNavigation="@dimen/dimen_0dp"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="@{viewModel.movieItem.getTitle()}" />
+                    app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                    app:title="@{viewModel.movieItem.getTitle()}"
+                    app:titleMarginStart="@dimen/dimen_0dp"
+                    tools:title="Avengers" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -191,7 +201,7 @@
                     android:layout_width="@dimen/dimen_0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_10dp"
-                    android:text="@{DateTimeUtils.getReleaseData(viewModel.movieItem.getReleaseDate())}"
+                    android:text="@{`Status: `.concat(viewModel.movieItem.getStatus() != null ? viewModel.movieItem.getStatus() : ``)}"
                     android:textColor="@color/color_text_light"
                     android:textSize="@dimen/dimen_16sp"
                     app:layout_constraintStart_toStartOf="@+id/txt_movie_title"
@@ -202,15 +212,73 @@
                     android:id="@+id/txt_movie_description"
                     android:layout_width="@dimen/dimen_0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:layout_marginTop="@dimen/dimen_30dp"
                     android:includeFontPadding="false"
+                    android:justificationMode="inter_word"
                     android:text="@{viewModel.movieItem.getOverview()}"
-                    android:textColor="@color/color_text_dark"
+                    android:textColor="@color/color_text_light"
                     android:textSize="@dimen/dimen_18sp"
                     app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
                     app:layout_constraintStart_toStartOf="@+id/cv_movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/cv_movie_poster"
                     tools:text="2020-05-29" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_genre_title"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_30dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/genre"
+                    android:textColor="@color/color_text_dark"
+                    android:textSize="@dimen/dimen_18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_description"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_description" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_genre"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:includeFontPadding="false"
+                    android:text="@{AppUtils.getGenres(viewModel.movieItem.getGenres())}"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="@dimen/dimen_18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_genre_title"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_genre_title"
+                    tools:text="Action" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_language_title"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/language"
+                    android:textColor="@color/color_text_dark"
+                    android:textSize="@dimen/dimen_18sp"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.movieItem.getSpokenLanguages() != null ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_description"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_genre" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_movie_language"
+                    android:layout_width="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:includeFontPadding="false"
+                    android:text="@{AppUtils.getLanguages(viewModel.movieItem.getSpokenLanguages())}"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="@dimen/dimen_18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_movie_title"
+                    app:layout_constraintStart_toStartOf="@+id/txt_movie_genre_title"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_language_title"
+                    tools:text="English" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

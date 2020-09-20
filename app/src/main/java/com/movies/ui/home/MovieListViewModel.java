@@ -4,6 +4,7 @@ import android.view.View;
 
 import androidx.databinding.ObservableField;
 
+import com.movies.R;
 import com.movies.basemodule.BaseNavigator;
 import com.movies.basemodule.BaseViewModel;
 import com.movies.data.datamanager.DataManager;
@@ -48,8 +49,14 @@ public class MovieListViewModel extends BaseViewModel<MovieListViewModel.MovieLi
 
     @Override
     public void onItemClicked(View view, int position) {
-        Movie movie = Objects.requireNonNull(moviesListAdapter.get()).getItemAt(position);
-        getNavigator().openMovieDetailScreen(movie.getId());
+        if (view.getId() == R.id.error_msg) {
+            if (moviesRepository != null) {
+                moviesRepository.onRetry();
+            }
+        } else {
+            Movie movie = Objects.requireNonNull(moviesListAdapter.get()).getItemAt(position);
+            getNavigator().openMovieDetailScreen(movie.getId());
+        }
     }
 
     public interface MovieListNavigator extends BaseNavigator {

@@ -9,10 +9,13 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
+import com.androidnetworking.common.ANConstants;
+import com.androidnetworking.error.ANError;
 import com.movies.data.datamanager.DataManager;
 import com.movies.data.model.movielist.Movie;
 import com.movies.data.model.movielist.MoviesResponse;
 import com.movies.data.model.state.NetworkState;
+import com.movies.utils.AppConstants;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,6 +63,11 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
         moviesPageKeyedDataSource.invalidate();
     }
 
+    public void onRetry() {
+        moviesPageKeyedDataSource.invalidate();
+    }
+
+
     public static class MoviesDataSource extends PageKeyedDataSource<Long, Movie> {
         private static final String TAG = "MoviesDataSource";
 
@@ -102,7 +110,10 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            String errorMessage = throwable.getMessage() == null ? "Unknown Error" : throwable.getMessage();
+                            String errorMessage = "Unknown Error!";
+                            if (throwable != null) {
+                                errorMessage = getAPIError((ANError) throwable);
+                            }
                             networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
                             loadInitialCallback.onResult(new ArrayList<>(), 1L, 2L);
                         }
@@ -134,11 +145,24 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            String errorMessage = throwable.getMessage() == null ? "Unknown Error" : throwable.getMessage();
+                            String errorMessage = "Unknown Error!";
+                            if (throwable != null) {
+                                errorMessage = getAPIError((ANError) throwable);
+                            }
                             networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
                             loadCallback.onResult(new ArrayList<>(), loadParams.key);
                         }
                     });
+        }
+
+        private String getAPIError(ANError anError) {
+            if (anError.getErrorBody() == null) {
+                return "Server not responding please try later!";
+            } else if (anError.getErrorCode() == AppConstants.API_STATUS_CODE_LOCAL_ERROR && anError.getErrorDetail() == ANConstants.CONNECTION_ERROR) {
+                return "Check your internet connection and try again!";
+            } else {
+                return "Unknown error";
+            }
         }
     }
 
@@ -146,6 +170,7 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
         final private LiveData<PagedList<Movie>> moviesPaged;
         final private LiveData<NetworkState> networkState;
         private MoviesDataSourceFactory dataSourceFactory;
+        private Executor executor;
 
         public MoviesNetwork(MoviesDataSourceFactory dataSourceFactory, PagedList.BoundaryCallback<Movie> boundaryCallback) {
             this.dataSourceFactory = dataSourceFactory;
@@ -153,7 +178,7 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
 
             networkState = Transformations.switchMap(dataSourceFactory.getNetworkStatus(), (Function<MoviesDataSource, LiveData<NetworkState>>) MoviesDataSource::getNetworkState);
 
-            Executor executor = Executors.newFixedThreadPool(NUMBERS_OF_THREADS);
+            executor = Executors.newFixedThreadPool(NUMBERS_OF_THREADS);
             LivePagedListBuilder livePagedListBuilder = new LivePagedListBuilder(dataSourceFactory, pagedListConfig);
             moviesPaged = livePagedListBuilder.setFetchExecutor(executor).setBoundaryCallback(boundaryCallback).build();
         }
@@ -168,6 +193,10 @@ public class MoviesDataSourceFactory extends DataSource.Factory {
 
         public void onReferesh() {
             dataSourceFactory.onReferesh();
+        }
+
+        public void onRetry() {
+
         }
     }
 }

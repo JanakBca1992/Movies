@@ -56,7 +56,14 @@ public class MoviesListAdapter extends PagedListAdapter<Movie, RecyclerView.View
                 }
             });
         } else if (getItemViewType(position) == R.layout.view_network_state_item) {
-            ((StateViewHolder) holder).onBind(networkState);
+            StateViewHolder stateViewHolder = ((StateViewHolder) holder);
+            stateViewHolder.onBind(networkState);
+            stateViewHolder.bindingImpl.errorMsg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemClickListener.onItemClicked(view, position);
+                }
+            });
         }
     }
 
